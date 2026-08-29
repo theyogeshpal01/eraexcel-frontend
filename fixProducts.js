@@ -1,0 +1,15 @@
+const fs = require('fs');
+let f = fs.readFileSync('src/pages/HomePage.jsx', 'utf8');
+f = f.replace(/key=\{item\}/g, 'key={item._id || Math.random()}');
+f = f.replace(/src=\{\https:\/\/images\.unsplash\.com\/photo-[^\]*\\}/g, 'src={item.image}');
+f = f.replace(/alt="Product"/g, 'alt={item.name}');
+f = f.replace(/>EraExcel Multipurpose Cleaner</g, '>{item.name}<');
+f = f.replace(/>500ml • Citric Fresh</g, '>{item.description}<');
+f = f.replace(/?65\.00/g, '?{item.price}');
+f = f.replace(/?75\.00/g, '?{item.oldPrice}');
+f = f.replace(/\/product\/\\$\{item\}\/g, '/product/');
+f = f.replace(/id: \(?:new|trending|best)-\\$\{item\}\/g, 'id: item._id');
+f = f.replace(/name: 'EraExcel (?:Multipurpose Cleaner|Best Seller|Trending)'/g, 'name: item.name');
+f = f.replace(/price: 65\.00/g, 'price: item.price');
+f = f.replace(/image: 'https:\/\/images\.unsplash\.com\/photo-[^']*'/g, 'image: item.image');
+fs.writeFileSync('src/pages/HomePage.jsx', f);
