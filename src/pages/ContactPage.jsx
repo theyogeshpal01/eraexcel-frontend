@@ -9,7 +9,7 @@ const ContactPage = () => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const res = await fetch('http://localhost:5000/api/contacts', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

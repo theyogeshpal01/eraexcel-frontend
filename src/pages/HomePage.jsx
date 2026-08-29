@@ -39,7 +39,7 @@ const HomePage = () => {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/products`)
       .then(res => res.json())
       .then(data => { 
         if(data.success) {
@@ -50,7 +50,7 @@ const HomePage = () => {
         }
       });
       
-    fetch('http://localhost:5000/api/testimonials')
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/testimonials`)
       .then(res => res.json())
       .then(data => { if(data.success) setTestimonials(data.data); });
   }, []);

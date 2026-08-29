@@ -5,7 +5,7 @@ import {
   Plus, Pencil, X, Check, Tag, KeyRound, Mail, Users, ChevronLeft, ChevronRight, Menu
 } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_BASE_URL;
 const enc = (path) => path ? path.split("/").map(encodeURIComponent).join("/") : "";
 
 const Modal = ({ title, onClose, children }) => (

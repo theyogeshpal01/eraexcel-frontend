@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Filter, ShoppingCart, X } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -14,7 +14,7 @@ const ShopPage = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/products`)
       .then((res) => res.json())
       .then((data) => { if (data.success) setProducts(data.data); });
   }, []);
