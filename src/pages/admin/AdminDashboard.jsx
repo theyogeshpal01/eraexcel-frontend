@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Package, MessageSquare, LogOut, Trash2, RefreshCw,
-  Plus, Pencil, X, Check, Tag, KeyRound, Mail, Users, ChevronLeft, ChevronRight, Menu
+  Plus, Pencil, X, Check, Tag, KeyRound, Mail, Users, ChevronLeft, ChevronRight, Menu, Eye
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_BASE_URL;
@@ -227,7 +227,7 @@ const AdminDashboard = () => {
             <KeyRound className="w-4 h-4" /> Change Password
           </button>
           <Link to="/" target="_blank" className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-brand-300 hover:bg-brand-800 transition-colors">
-            🌐 View Website
+            ðŸŒ View Website
           </Link>
           <button onClick={logout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/30 transition-colors">
             <LogOut className="w-4 h-4" /> Logout
@@ -276,8 +276,8 @@ const AdminDashboard = () => {
                       <td className="px-4 py-3"><img src={enc(p.image)} alt={p.name} className="object-contain w-10 h-10 p-1 bg-gray-100 rounded-lg" /></td>
                       <td className="px-4 py-3"><p className="font-semibold text-gray-900 max-w-[200px] truncate">{p.name}</p><p className="text-xs text-gray-400">{p.description}</p></td>
                       <td className="px-4 py-3"><span className="bg-brand-50 text-brand-700 text-xs font-bold px-2 py-0.5 rounded-full">{p.category}</span></td>
-                      <td className="px-4 py-3 font-black text-gray-900">₹{p.price}</td>
-                      <td className="px-4 py-3 font-mono text-xs text-gray-400">{p.sku || "—"}</td>
+                      <td className="px-4 py-3 font-black text-gray-900">â‚¹{p.price}</td>
+                      <td className="px-4 py-3 font-mono text-xs text-gray-400">{p.sku || "â€”"}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1">
                           <Btn sm variant="secondary" onClick={() => openEditProduct(p)}><Pencil className="w-3 h-3" /></Btn>
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
                 {categories.map(c => (
                   <tr key={c._id} className="transition-colors hover:bg-gray-50">
                     <td className="px-4 py-3 font-semibold text-gray-900">{c.name}</td>
-                    <td className="px-4 py-3 text-xs text-gray-400">{c.description || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-gray-400">{c.description || "â€”"}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
                         <Btn sm variant="secondary" onClick={() => openEditCat(c)}><Pencil className="w-3 h-3" /></Btn>
@@ -342,11 +342,9 @@ const AdminDashboard = () => {
                     <td className="px-4 py-3 text-xs text-gray-500 whitespace-nowrap">{new Date(c.createdAt).toLocaleDateString()}</td>
                     <td className="px-4 py-3 font-semibold text-gray-900">{c.name}</td>
                     <td className="px-4 py-3 text-gray-600">{c.email}</td>
-                    <td className="px-4 py-3 text-gray-800">{c.subject || "—"}</td>
+                    <td className="px-4 py-3 text-gray-800">{c.subject || "â€”"}</td>
                     <td className="max-w-xs px-4 py-3 text-xs text-gray-500 truncate" title={c.message}>{c.message}</td>
-                    <td className="px-4 py-3">
-                      <Btn sm variant="danger" onClick={() => deleteContact(c._id)}><Trash2 className="w-3 h-3" /></Btn>
-                    </td>
+                    <td className="px-4 py-3"><div className="flex gap-2"><Btn sm variant="ghost" onClick={() => setModal({ type: 'viewContact', data: c })}><Eye className="w-4 h-4" /></Btn><Btn sm variant="danger" onClick={() => deleteContact(c._id)}><Trash2 className="w-3 h-3" /></Btn></div></td>
                   </tr>
                 ))}
               </tbody>
@@ -401,17 +399,41 @@ const AdminDashboard = () => {
           <Field label="SKU" value={prodForm.sku} onChange={e => setProdForm(f => ({ ...f, sku: e.target.value }))} placeholder="e.g. FC-1L" />
           <Field label="Description" value={prodForm.description} onChange={e => setProdForm(f => ({ ...f, description: e.target.value }))} placeholder="Short description" textarea />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Price (MRP) ₹" type="number" value={prodForm.price} onChange={e => setProdForm(f => ({ ...f, price: e.target.value }))} placeholder="90" required />
-            <Field label="Old Price ₹" type="number" value={prodForm.oldPrice} onChange={e => setProdForm(f => ({ ...f, oldPrice: e.target.value }))} placeholder="110" />
+            <Field label="Price (MRP) â‚¹" type="number" value={prodForm.price} onChange={e => setProdForm(f => ({ ...f, price: e.target.value }))} placeholder="90" required />
+            <Field label="Old Price â‚¹" type="number" value={prodForm.oldPrice} onChange={e => setProdForm(f => ({ ...f, oldPrice: e.target.value }))} placeholder="110" />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
             <select value={prodForm.category} onChange={e => setProdForm(f => ({ ...f, category: e.target.value }))} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400">
-              <option value="">— Select category —</option>
+              <option value="">â€” Select category â€”</option>
               {categories.map(c => <option key={c._id} value={c.name}>{c.name}</option>)}
             </select>
           </div>
-          <Field label="Main Image URL/Path" value={prodForm.image} onChange={e => setProdForm(f => ({ ...f, image: e.target.value }))} placeholder="/product-images/folder/file.jpg" />
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Product Image (Upload or URL)</label>
+            <div className="flex gap-2 mb-2">
+              <input type="file" accept="image/*" onChange={async (e) => {
+                const file = e.target.files[0];
+                if(!file) return;
+                setSaving(true);
+                const formData = new FormData();
+                formData.append("file", file);
+                try {
+                  const res = await fetch(`${API}/upload`, { method: "POST", headers: { "Authorization": `Bearer ${localStorage.getItem('adminToken')}` }, body: formData });
+                  const data = await res.json();
+                  if(data.success) {
+                    setProdForm(f => ({ ...f, image: data.url }));
+                  } else {
+                    alert("Upload failed: " + data.message);
+                  }
+                } catch(err) {
+                  alert("Upload error");
+                }
+                setSaving(false);
+              }} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 border border-gray-200 rounded-xl" />
+            </div>
+            <input type="text" value={prodForm.image} onChange={e => setProdForm(f => ({ ...f, image: e.target.value }))} placeholder="Or enter image URL here" className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400" />
+          </div>
           <div className="flex items-center gap-2 mb-4">
             <input type="checkbox" id="isNew" checked={prodForm.isNewProduct} onChange={e => setProdForm(f => ({ ...f, isNewProduct: e.target.checked }))} className="w-4 h-4 rounded text-brand-600" />
             <label htmlFor="isNew" className="text-sm font-medium text-gray-700">Mark as NEW product</label>
@@ -453,12 +475,31 @@ const AdminDashboard = () => {
       {modal?.type === "password" && (
         <Modal title="Change Password" onClose={closeModal}>
           {err && <p className="px-3 py-2 mb-3 text-sm text-red-600 rounded-lg bg-red-50">{err}</p>}
-          <Field label="Current Password" type="password" value={pwForm.currentPassword} onChange={e => setPwForm(f => ({ ...f, currentPassword: e.target.value }))} placeholder="••••••••" required />
-          <Field label="New Password" type="password" value={pwForm.newPassword} onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))} placeholder="••••••••" required />
-          <Field label="Confirm New Password" type="password" value={pwForm.confirmPassword} onChange={e => setPwForm(f => ({ ...f, confirmPassword: e.target.value }))} placeholder="••••••••" required />
+          <Field label="Current Password" type="password" value={pwForm.currentPassword} onChange={e => setPwForm(f => ({ ...f, currentPassword: e.target.value }))} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required />
+          <Field label="New Password" type="password" value={pwForm.newPassword} onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required />
+          <Field label="Confirm New Password" type="password" value={pwForm.confirmPassword} onChange={e => setPwForm(f => ({ ...f, confirmPassword: e.target.value }))} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required />
           <div className="flex justify-end gap-2 pt-2">
             <Btn variant="ghost" onClick={closeModal}>Cancel</Btn>
             <Btn onClick={changePassword} disabled={saving}>{saving ? "Saving..." : <><Check className="w-4 h-4" /> Update Password</>}</Btn>
+          </div>
+        </Modal>
+      )}
+
+      {/* View Contact Modal */}
+      {modal?.type === "viewContact" && (
+        <Modal title="Contact Message Details" onClose={closeModal}>
+          <div className="space-y-4 text-sm text-gray-800">
+            <div><span className="font-bold text-gray-900">Name:</span> {modal.data.name}</div>
+            <div><span className="font-bold text-gray-900">Email:</span> {modal.data.email}</div>
+            <div><span className="font-bold text-gray-900">Subject:</span> {modal.data.subject || "—"}</div>
+            <div><span className="font-bold text-gray-900">Date:</span> {new Date(modal.data.createdAt).toLocaleString()}</div>
+            <div className="pt-2 border-t border-gray-100">
+              <div className="font-bold text-gray-900 mb-1">Message:</div>
+              <p className="whitespace-pre-wrap bg-gray-50 p-3 rounded-lg border border-gray-100">{modal.data.message}</p>
+            </div>
+            <div className="pt-4 flex justify-end">
+              <Btn variant="ghost" onClick={closeModal}>Close</Btn>
+            </div>
           </div>
         </Modal>
       )}
@@ -467,6 +508,8 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
 
 
 

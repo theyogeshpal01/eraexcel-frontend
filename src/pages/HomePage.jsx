@@ -467,9 +467,7 @@ const HomePage = () => {
                             <span className="font-black text-gray-900">₹{item.price.toFixed(2)}</span>
                             {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice.toFixed(2)}</span>}
                           </div>
-                          <button className="text-gray-300 transition-colors hover:text-red-500">
-                            <Heart className="w-4 h-4" />
-                          </button>
+                          
                         </div>
                       </div>
                     </div>
@@ -599,9 +597,7 @@ const HomePage = () => {
                             <span className="font-black text-gray-900">₹{item.price}</span>
                             {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice}</span>}
                           </div>
-                          <button className="text-gray-300 transition-colors hover:text-red-500">
-                            <Heart className="w-4 h-4" />
-                          </button>
+                          
                         </div>
                       </div>
                     </div>
@@ -720,4 +716,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
 
