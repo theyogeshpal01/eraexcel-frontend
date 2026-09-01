@@ -227,7 +227,7 @@ const AdminDashboard = () => {
             <KeyRound className="w-4 h-4" /> Change Password
           </button>
           <Link to="/" target="_blank" className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-brand-300 hover:bg-brand-800 transition-colors">
-            ðŸŒ View Website
+            🌐 View Website
           </Link>
           <button onClick={logout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-900/30 transition-colors">
             <LogOut className="w-4 h-4" /> Logout
@@ -276,7 +276,7 @@ const AdminDashboard = () => {
                       <td className="px-4 py-3"><img src={enc(p.image)} alt={p.name} className="object-contain w-10 h-10 p-1 bg-gray-100 rounded-lg" /></td>
                       <td className="px-4 py-3"><p className="font-semibold text-gray-900 max-w-[200px] truncate">{p.name}</p><p className="text-xs text-gray-400">{p.description}</p></td>
                       <td className="px-4 py-3"><span className="bg-brand-50 text-brand-700 text-xs font-bold px-2 py-0.5 rounded-full">{p.category}</span></td>
-                      <td className="px-4 py-3 font-black text-gray-900">â‚¹{p.price}</td>
+                      <td className="px-4 py-3 font-black text-gray-900">₹{p.price}</td>
                       <td className="px-4 py-3 font-mono text-xs text-gray-400">{p.sku || "â€”"}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1">
@@ -399,8 +399,8 @@ const AdminDashboard = () => {
           <Field label="SKU" value={prodForm.sku} onChange={e => setProdForm(f => ({ ...f, sku: e.target.value }))} placeholder="e.g. FC-1L" />
           <Field label="Description" value={prodForm.description} onChange={e => setProdForm(f => ({ ...f, description: e.target.value }))} placeholder="Short description" textarea />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Price (MRP) â‚¹" type="number" value={prodForm.price} onChange={e => setProdForm(f => ({ ...f, price: e.target.value }))} placeholder="90" required />
-            <Field label="Old Price â‚¹" type="number" value={prodForm.oldPrice} onChange={e => setProdForm(f => ({ ...f, oldPrice: e.target.value }))} placeholder="110" />
+            <Field label="Price (MRP) ₹" type="number" value={prodForm.price} onChange={e => setProdForm(f => ({ ...f, price: e.target.value }))} placeholder="90" required />
+            <Field label="Old Price ₹" type="number" value={prodForm.oldPrice} onChange={e => setProdForm(f => ({ ...f, oldPrice: e.target.value }))} placeholder="110" />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
