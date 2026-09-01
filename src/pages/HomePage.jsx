@@ -327,8 +327,8 @@ const HomePage = () => {
                   </div>
                   
                   <div className="flex items-center gap-2 pt-2 mt-auto">
-                    <span className="text-lg font-black text-gray-900">â‚¹{item.price.toFixed(2)}</span>
-                    {item.oldPrice && <span className="text-sm text-gray-400 line-through">â‚¹{item.oldPrice.toFixed(2)}</span>}
+                    <span className="text-lg font-black text-gray-900">₹{item.price.toFixed(2)}</span>
+                    {item.oldPrice && <span className="text-sm text-gray-400 line-through">₹{item.oldPrice.toFixed(2)}</span>}
                   </div>
                 </div>
               </div>
@@ -464,8 +464,8 @@ const HomePage = () => {
 
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-center gap-2">
-                            <span className="font-black text-gray-900">â‚¹{item.price.toFixed(2)}</span>
-                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">â‚¹{item.oldPrice.toFixed(2)}</span>}
+                            <span className="font-black text-gray-900">₹{item.price.toFixed(2)}</span>
+                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice.toFixed(2)}</span>}
                           </div>
                           <button className="text-gray-300 transition-colors hover:text-red-500">
                             <Heart className="w-4 h-4" />
@@ -596,8 +596,8 @@ const HomePage = () => {
                         </div>
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-center gap-2">
-                            <span className="font-black text-gray-900">â‚¹{item.price}</span>
-                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">â‚¹{item.oldPrice}</span>}
+                            <span className="font-black text-gray-900">₹{item.price}</span>
+                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice}</span>}
                           </div>
                           <button className="text-gray-300 transition-colors hover:text-red-500">
                             <Heart className="w-4 h-4" />

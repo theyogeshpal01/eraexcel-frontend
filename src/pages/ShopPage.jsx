@@ -127,7 +127,7 @@ const ShopPage = () => {
                     <p className="text-xs text-gray-400 mb-3">{item.description}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="font-black text-lg text-gray-900">â‚¹{item.price}</span>
+                    <span className="font-black text-lg text-gray-900">₹{item.price}</span>
                     <Link
                       to={`/product/${item._id}`}
                       className="text-xs font-bold text-brand-600 border border-brand-200 px-3 py-1.5 rounded-full hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-colors"
