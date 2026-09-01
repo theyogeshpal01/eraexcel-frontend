@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, ShieldCheck, Droplets, CheckCircle, ArrowRight, Eye, Heart, ShoppingCart, ChevronLeft, ChevronRight, Truck, Leaf, Users, Award } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -36,9 +36,11 @@ const HomePage = () => {
   
   const [products, setProducts] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
+    setProductsLoading(true);
     fetch(`${import.meta.env.VITE_API_BASE_URL}/products`)
       .then(res => res.json())
       .then(data => { 
@@ -48,7 +50,8 @@ const HomePage = () => {
           const shuffled = [...data.data].sort(() => 0.5 - Math.random());
           setBestSellers(shuffled.slice(0, 3));
         }
-      });
+      })
+      .finally(() => setProductsLoading(false));
       
     fetch(`${import.meta.env.VITE_API_BASE_URL}/testimonials`)
       .then(res => res.json())
@@ -265,6 +268,21 @@ const HomePage = () => {
             <p className="max-w-2xl mx-auto text-gray-500">Browse the collection of our new products. You'll definitely find what you are looking for.</p>
           </div>
 
+          {productsLoading ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-pulse">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-md border border-gray-100 overflow-hidden flex flex-col">
+                  <div className="h-48 bg-gray-200" />
+                  <div className="p-4 flex flex-col gap-2">
+                    <div className="h-3 w-1/3 bg-gray-200 rounded-full" />
+                    <div className="h-4 w-3/4 bg-gray-200 rounded-full" />
+                    <div className="h-3 w-1/2 bg-gray-200 rounded-full" />
+                    <div className="h-5 w-16 bg-gray-200 rounded-full mt-2" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {products
               .reduce((acc, item) => {
@@ -287,12 +305,7 @@ const HomePage = () => {
                   />
                   {/* Hover Actions */}
                   <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity opacity-0 bg-black/5 group-hover:opacity-100">
-                    <button 
-                      onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, image: item.image })}
-                      className="flex items-center justify-center w-10 h-10 text-white transition-colors translate-y-4 rounded-full shadow-md bg-brand-600 hover:bg-brand-700 group-hover:translate-y-0"
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                    </button>
+                    
                     <Link to={`/product/${item._id}`} className="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors translate-y-4 bg-white rounded-full shadow-md hover:bg-brand-600 hover:text-white group-hover:translate-y-0">
                       <Eye className="w-4 h-4" />
                     </Link>
@@ -314,13 +327,14 @@ const HomePage = () => {
                   </div>
                   
                   <div className="flex items-center gap-2 pt-2 mt-auto">
-                    <span className="text-lg font-black text-gray-900">₹{item.price.toFixed(2)}</span>
-                    {item.oldPrice && <span className="text-sm text-gray-400 line-through">₹{item.oldPrice.toFixed(2)}</span>}
+                    <span className="text-lg font-black text-gray-900">â‚¹{item.price.toFixed(2)}</span>
+                    {item.oldPrice && <span className="text-sm text-gray-400 line-through">â‚¹{item.oldPrice.toFixed(2)}</span>}
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 
@@ -428,12 +442,7 @@ const HomePage = () => {
                       />
                       {/* Hover Actions */}
                       <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity opacity-0 bg-black/5 group-hover:opacity-100">
-                        <button 
-                          onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, image: item.image })}
-                          className="flex items-center justify-center w-10 h-10 text-white transition-colors translate-y-4 rounded-full shadow-md bg-brand-600 hover:bg-brand-700 group-hover:translate-y-0"
-                        >
-                          <ShoppingCart className="w-4 h-4" />
-                        </button>
+                        
                         <Link to={`/product/${item._id}`} className="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors translate-y-4 bg-white rounded-full shadow-md hover:bg-brand-600 hover:text-white group-hover:translate-y-0">
                           <Eye className="w-4 h-4" />
                         </Link>
@@ -455,8 +464,8 @@ const HomePage = () => {
 
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-center gap-2">
-                            <span className="font-black text-gray-900">₹{item.price.toFixed(2)}</span>
-                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice.toFixed(2)}</span>}
+                            <span className="font-black text-gray-900">â‚¹{item.price.toFixed(2)}</span>
+                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">â‚¹{item.oldPrice.toFixed(2)}</span>}
                           </div>
                           <button className="text-gray-300 transition-colors hover:text-red-500">
                             <Heart className="w-4 h-4" />
@@ -540,6 +549,18 @@ const HomePage = () => {
 
             {/* Product Cards (3 columns) */}
             <div className="w-full lg:w-3/4">
+              {productsLoading ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-pulse">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="bg-white rounded-md border border-gray-100 flex flex-col p-4">
+                      <div className="h-56 bg-gray-200 rounded mb-4" />
+                      <div className="h-4 w-3/4 bg-gray-200 rounded-full mb-2" />
+                      <div className="h-3 w-1/2 bg-gray-200 rounded-full mb-3" />
+                      <div className="h-6 w-20 bg-gray-200 rounded-full" />
+                    </div>
+                  ))}
+                </div>
+              ) : (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {bestSellers.map((item) => (
                   <div key={item._id} className="relative flex flex-col p-4 overflow-hidden transition-all duration-300 bg-white border border-gray-100 rounded-md group hover:shadow-xl">
@@ -556,12 +577,7 @@ const HomePage = () => {
                         className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity opacity-0 bg-black/5 group-hover:opacity-100">
-                        <button 
-                          onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, image: item.image })}
-                          className="flex items-center justify-center w-10 h-10 text-white transition-colors translate-y-4 rounded-full shadow-md bg-brand-600 hover:bg-brand-700 group-hover:translate-y-0"
-                        >
-                          <ShoppingCart className="w-4 h-4" />
-                        </button>
+                        
                         <Link to={`/product/${item._id}`} className="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors translate-y-4 bg-white rounded-full shadow-md hover:bg-brand-600 hover:text-white group-hover:translate-y-0">
                           <Eye className="w-4 h-4" />
                         </Link>
@@ -580,8 +596,8 @@ const HomePage = () => {
                         </div>
                         <div className="flex items-center justify-between mt-auto">
                           <div className="flex items-center gap-2">
-                            <span className="font-black text-gray-900">₹{item.price}</span>
-                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">₹{item.oldPrice}</span>}
+                            <span className="font-black text-gray-900">â‚¹{item.price}</span>
+                            {item.oldPrice && <span className="text-xs text-gray-400 line-through decoration-gray-400">â‚¹{item.oldPrice}</span>}
                           </div>
                           <button className="text-gray-300 transition-colors hover:text-red-500">
                             <Heart className="w-4 h-4" />
@@ -592,49 +608,49 @@ const HomePage = () => {
                   </div>
                 ))}
               </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* FROM OUR BLOG */}
-      {/* <section className="py-24 bg-white">
+      {/* OUR GALLERY */}
+      <section className="py-24 bg-white border-t border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Star className="w-6 h-6 text-brand-600" />
-            </div>
-            <h2 className="mb-4 text-3xl font-black tracking-widest text-gray-900 uppercase">From Our Blog</h2>
-            <p className="max-w-2xl mx-auto text-sm text-gray-500">Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas.</p>
+            <h2 className="mb-4 text-3xl font-black tracking-widest text-gray-900 uppercase">Our Gallery</h2>
+            <p className="max-w-2xl mx-auto text-sm text-gray-500">Discover our complete range of premium cleaning and hygiene products, designed for your home.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
             {[
-              { img: '1464226184884-fa280b87c399', title: 'At wisi enim ad minim veniam.' },
-              { img: '1505935428804-00716e580e16', title: 'Exerci tation ullamcorper suscipit.' },
-              { img: '1540340061722-5c317ff6e522', title: 'Duis autem vel eum iriure dolor.' }
-            ].map((post, idx) => (
-              <div key={idx} className="group">
-                <div className="relative overflow-hidden mb-6 aspect-[4/3]">
-                  <img 
-                    src={`https://images.unsplash.com/photo-${post.img}?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80`} 
-                    alt="Blog Post" 
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="mb-2 text-lg font-bold text-gray-900 transition-colors cursor-pointer hover:text-brand-600">{post.title}</h3>
-                <p className="mb-4 text-xs font-medium tracking-wider text-gray-400 uppercase">June 22, 2019 / E-commerce</p>
-                <p className="mb-4 text-sm leading-relaxed text-gray-500 line-clamp-2">
-                  Aenean vestibulum pretium enim, non commodo urna volutpat vitae. Pellentesque vel lacus eget est.
-                </p>
-                <Link to="/blog" className="text-sm font-bold text-gray-900 underline uppercase transition-colors underline-offset-4 hover:text-brand-600">
-                  Read More
-                </Link>
+              "/product-images/DISHWASH-20260720T160434Z-1-001/DISHWASH/UJJMING_product_composite.jpg",
+              "/product-images/FLOOR CLEANER - GREEN-20260720T160438Z-1-001/FLOOR CLEANER - GREEN/FLOOR CLEANER - GREEN-Composit.jpg",
+              "/product-images/FLOOR CLEANER - PINK-20260720T160447Z-1-001/FLOOR CLEANER - PINK/UJJMING-FLOOR CLEANER - PINK-Composit-V1.jpg",
+              "/product-images/FLOOR CLEANER - YELLOW-20260720T160457Z-1-001/FLOOR CLEANER - YELLOW/FLOOR CLEANER - YELLOW-Composit.jpg",
+              "/product-images/GLASS CLEANER-20260720T160501Z-1-001/GLASS CLEANER/UJJMING_GLASS CLEANER-Composit-V1.jpeg",
+              "/product-images/HANDWASH 1-20260720T160506Z-1-001/HANDWASH 1/UJJMING_HANDWASH 1-Composit.jpg",
+              "/product-images/HANDWASH 2-20260720T160511Z-1-001/HANDWASH 2/UJJMING_HANDWASH 2-Composit.jpg",
+              "/product-images/LIQUID DETERGENT-20260720T160515Z-1-001/LIQUID DETERGENT/UJJMING_LIQUID DETERGENT-Composit.jpg"
+            ].map((imgUrl, idx) => (
+              <div 
+                key={idx} 
+                className={`group relative overflow-hidden rounded-xl bg-gray-50 flex items-center justify-center
+                  ${idx === 0 || idx === 3 ? 'col-span-2 row-span-2 min-h-[300px]' : 'aspect-square'}
+                `}
+              >
+                <div className="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/10 transition-colors duration-500 z-10" />
+                <img 
+                  src={imgUrl.split('/').map(encodeURIComponent).join('/')} 
+                  alt="Gallery Item" 
+                  className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-110"
+                />
               </div>
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* FAQ SECTION */}
       <section id="faq" className="py-24 bg-white border-t border-gray-100">
@@ -704,3 +720,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

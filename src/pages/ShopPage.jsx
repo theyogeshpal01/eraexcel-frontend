@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Filter, ShoppingCart, X } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -10,13 +10,16 @@ const CATEGORIES = ["All", "Floor Cleaner", "Dish Wash", "Toilet Cleaner", "Hand
 const ShopPage = () => {
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${import.meta.env.VITE_API_BASE_URL}/products`)
       .then((res) => res.json())
-      .then((data) => { if (data.success) setProducts(data.data); });
+      .then((data) => { if (data.success) setProducts(data.data); })
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = products.filter((p) => {
@@ -81,7 +84,24 @@ const ShopPage = () => {
         </div>
 
         {/* Product Grid */}
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col animate-pulse">
+                <div className="h-52 bg-gray-200" />
+                <div className="p-4 flex flex-col gap-2">
+                  <div className="h-3 w-1/3 bg-gray-200 rounded-full" />
+                  <div className="h-4 w-3/4 bg-gray-200 rounded-full" />
+                  <div className="h-3 w-1/2 bg-gray-200 rounded-full" />
+                  <div className="flex justify-between items-center mt-3">
+                    <div className="h-5 w-12 bg-gray-200 rounded-full" />
+                    <div className="h-8 w-16 bg-gray-200 rounded-xl" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-gray-400">No products found.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -97,12 +117,7 @@ const ShopPage = () => {
                     alt={item.name}
                     className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
-                  <button
-                    onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, image: item.image })}
-                    className="absolute top-3 right-3 bg-white/90 backdrop-blur text-brand-600 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-brand-600 hover:text-white shadow-sm cursor-pointer"
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                  </button>
+                  
                 </div>
                 {/* Info */}
                 <div className="p-4 flex-grow flex flex-col justify-between">
@@ -112,7 +127,7 @@ const ShopPage = () => {
                     <p className="text-xs text-gray-400 mb-3">{item.description}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="font-black text-lg text-gray-900">₹{item.price}</span>
+                    <span className="font-black text-lg text-gray-900">â‚¹{item.price}</span>
                     <Link
                       to={`/product/${item._id}`}
                       className="text-xs font-bold text-brand-600 border border-brand-200 px-3 py-1.5 rounded-full hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-colors"
@@ -131,3 +146,4 @@ const ShopPage = () => {
 };
 
 export default ShopPage;
+

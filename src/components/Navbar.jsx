@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, User, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
@@ -59,23 +59,14 @@ const Navbar = () => {
           <div className={`flex items-center h-20 h-full ${textColorClass}`}>
             
             {/* Desktop Separated Actions */}
-            <div className="hidden sm:flex items-stretch h-full border-l border-white/20">
-              <button className={`px-6 flex items-center justify-center border-r border-white/20 ${hoverColorClass} transition-colors`}>
-                <Search className="w-5 h-5" />
-              </button>
-              
-              <Link to="/cart" className={`px-6 flex items-center justify-center border-r border-white/20 ${hoverColorClass} transition-colors relative group`}>
-                <div className="relative">
-                  <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className={`absolute -top-2 -right-2 bg-white text-gray-900 text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-transparent shadow-sm`}>
-                    {cartCount}
-                  </span>
-                </div>
+            <div className="hidden sm:flex items-center h-full pl-6 gap-4 border-l border-white/20">
+              <div className="flex items-center gap-2 mr-2">
+                <Phone className="w-4 h-4 text-brand-400" />
+                <span className={`font-semibold tracking-wide text-sm ${textColorClass}`}>+91 98765 43210</span>
+              </div>
+              <Link to="/contact" className={`px-5 py-2 rounded-full bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm`}>
+                Get a Quote
               </Link>
-              
-              <button className={`px-6 flex items-center justify-center border-r border-white/20 ${hoverColorClass} transition-colors`}>
-                <Menu className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Mobile Menu Button (replaces the desktop one on small screens) */}
@@ -104,12 +95,9 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="border-t border-gray-100 mt-4 pt-4 flex gap-4 px-3">
-               <button className="text-gray-600 flex items-center gap-2 text-sm font-medium">
-                 <Search className="w-4 h-4" /> Search
-               </button>
-               <Link to="/login" className="text-gray-600 flex items-center gap-2 text-sm font-medium" onClick={() => setIsOpen(false)}>
-                 <User className="w-4 h-4" /> Account
-               </Link>
+               <div className="text-brand-600 flex items-center gap-2 text-sm font-bold">
+                 <Phone className="w-4 h-4" /> +91 98765 43210
+               </div>
             </div>
           </div>
         </div>

@@ -60,8 +60,29 @@ const ProductDetailsPage = () => {
         </Link>
 
         {loading ? (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="w-12 h-12 border-4 border-brand-600 border-t-transparent rounded-full animate-spin" />
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10 animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {/* Image skeleton */}
+              <div className="flex flex-col gap-4">
+                <div className="h-[400px] bg-gray-200 rounded-xl" />
+                <div className="flex gap-3">
+                  {[1,2,3].map(i => <div key={i} className="w-20 h-20 bg-gray-200 rounded-lg flex-shrink-0" />)}
+                </div>
+              </div>
+              {/* Info skeleton */}
+              <div className="flex flex-col gap-4 py-2">
+                <div className="h-3 w-24 bg-gray-200 rounded-full" />
+                <div className="h-8 w-3/4 bg-gray-200 rounded-full" />
+                <div className="h-4 w-full bg-gray-200 rounded-full" />
+                <div className="h-4 w-2/3 bg-gray-200 rounded-full" />
+                <div className="h-10 w-32 bg-gray-200 rounded-full mt-2" />
+                <div className="h-3 w-20 bg-gray-200 rounded-full" />
+                <div className="flex gap-3 mt-4">
+                  <div className="h-12 w-32 bg-gray-200 rounded-xl" />
+                  <div className="h-12 flex-1 bg-gray-200 rounded-xl" />
+                </div>
+              </div>
+            </div>
           </div>
         ) : !product ? (
           <div className="text-center py-20 text-gray-400 text-xl">Product not found.</div>
@@ -180,34 +201,14 @@ const ProductDetailsPage = () => {
                   </div>
                 </div>
 
-                {/* Quantity + Add to Cart */}
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
-                      <button
-                        onClick={() => setQty((q) => Math.max(1, q - 1))}
-                        className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors font-bold text-lg"
-                      >
-                        -
-                      </button>
-                      <span className="w-12 text-center font-bold text-gray-900">{qty}</span>
-                      <button
-                        onClick={() => setQty((q) => q + 1)}
-                        className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors font-bold text-lg"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <span className="text-sm text-gray-400">Total: <span className="font-black text-gray-800">₹{(product.price * qty).toFixed(2)}</span></span>
-                  </div>
-
-                  <button
-                    onClick={() => addToCart({ id: product._id, name: product.name, price: product.price, image: product.image }, qty)}
-                    className="flex items-center justify-center gap-3 bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 px-8 rounded-xl transition-colors text-base shadow-md hover:shadow-lg"
+                {/* Inquiry */}
+                <div className="flex flex-col gap-4 mt-4">
+                  <Link
+                    to="/contact"
+                    className="flex items-center justify-center gap-3 bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 px-8 rounded-xl transition-colors text-base shadow-md hover:shadow-lg w-full sm:w-80"
                   >
-                    <ShoppingCart className="w-5 h-5" />
-                    Add to Cart
-                  </button>
+                    Inquire Now
+                  </Link>
                 </div>
               </div>
             </div>
